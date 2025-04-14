@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String?
+  phone String?
+  login String @unique
+  password String
+  face Boolean @default(false)
+  name String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  review Review[]
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  name String @unique
+  img String? @default("default.png")
+  reviewCount Int? @default(0)
+  description String? @default("")
+  age Int
+  formPC String[]
+  formPhone String[]
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId Int @unique
+  version Version?
+  review Review[]
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String @unique
+  link String? @default("/")
+  product Product[]
+}
+
+model Version {
+  id Int @id @default(autoincrement())
+  version Float? @default(1.00)
+  description String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int @unique
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int @unique
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int @unique
+  review Int? @default(1)
+  reviewText String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
