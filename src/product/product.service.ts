@@ -61,23 +61,24 @@ export class ProductService {
 	async getProductFilter(dto: ProductFilterDTO) {
 		let product;
 		if (dto.categoryId) {
-			product = this.prisma.product.findMany({where: {categoryId: dto.categoryId}})
+			await this.prisma.product.findMany({where: {categoryId: dto.categoryId}}).then((value) => product = value)
 		} else {
-			product = this.prisma.product.findMany()
+			await this.prisma.product.findMany().then((value) => product = value)
 		}
-		if (!dto.offset && !dto.limit && !dto.age && !dto.rating) {
-			return product
-		}
-		if (dto.offset && dto.limit) {
-			product = product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset + 1)
-		}
-		if (dto.age) {
-			product = product.filter((value) => value.age === dto.age)
-		}		
-		if (dto.rating) {
-			product = product.filter((value) => {
-				(dto.rating && value.rating <= dto.rating) 
-			})
+		if (product) {
+			console.log(product)
+			if (!dto.offset && !dto.limit && !dto.age && !dto.rating) {
+				return product
+			}
+			if (dto.offset && dto.limit) {
+				product = product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset + 1)
+			}
+			if (dto.age) {
+				product = product.filter((value) => value.age === dto.age)
+			}		
+			if (dto.rating) {
+				product = product.filter((value) => dto.rating && value.rating >= dto.rating )
+			}
 		}
 		return product
 	}

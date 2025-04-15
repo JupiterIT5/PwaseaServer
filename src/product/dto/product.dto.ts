@@ -11,6 +11,10 @@ export class ProductDTO {
   reviewCount: number;
 
   @ApiProperty({required: false})
+  @IsInt()
+  rating?: number
+
+  @ApiProperty({required: false})
   @IsString()
   img?: string;
 
