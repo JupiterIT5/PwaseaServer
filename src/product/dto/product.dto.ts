@@ -78,11 +78,23 @@ export class ReviewDTO {
 }
 
 export class ProductFilterDTO {
-  @ApiProperty()
+  @ApiProperty({required: false})
 	@IsInt()
-  limit: number;
+  limit?: number;
 
-  @ApiProperty()
+  @ApiProperty({required: false})
 	@IsInt()
-  offset: number
+  offset?: number
+
+  @ApiProperty({required: false})
+	@IsInt()
+  categoryId?: number
+
+  @ApiProperty({required: false})
+	@IsInt()
+  age?: number
+
+  @ApiProperty({required: false})
+	@IsInt()
+  rating?: number
 }

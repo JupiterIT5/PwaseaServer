@@ -59,8 +59,27 @@ export class ProductService {
 	}
 
 	async getProductFilter(dto: ProductFilterDTO) {
-		const product = await this.prisma.product.findMany()
-		return product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset + 1)
+		let product;
+		if (dto.categoryId) {
+			product = this.prisma.product.findMany({where: {categoryId: dto.categoryId}})
+		} else {
+			product = this.prisma.product.findMany()
+		}
+		if (!dto.offset && !dto.limit && !dto.age && !dto.rating) {
+			return product
+		}
+		if (dto.offset && dto.limit) {
+			product = product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset + 1)
+		}
+		if (dto.age) {
+			product = product.filter((value) => value.age === dto.age)
+		}		
+		if (dto.rating) {
+			product = product.filter((value) => {
+				(dto.rating && value.rating <= dto.rating) 
+			})
+		}
+		return product
 	}
 
 	// Delete request

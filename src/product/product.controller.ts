@@ -9,11 +9,11 @@ export class ProductController {
 
   // Get request
 
-  @Get("/get-all-products")
-  @HttpCode(200)
-  getAllProduct() {
-    return this.productService.getAllProduct()
-  }
+  // @Get("/get-all-products")
+  // @HttpCode(200)
+  // getAllProduct() {
+  //   return this.productService.getAllProduct()
+  // }
 
   @Get("/get-product/:id")
   @HttpCode(200)
@@ -47,9 +47,6 @@ export class ProductController {
   @HttpCode(200)
   @ApiBody({type: ProductFilterDTO})
   async getProductFilter(@Body() dto: ProductFilterDTO) {
-    if (dto.limit <= 0 || dto.offset <= 0) {
-      return new BadRequestException("Error limit && offset")
-    }
     return await this.productService.getProductFilter(dto)
   }
 

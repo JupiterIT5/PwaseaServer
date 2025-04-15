@@ -25,6 +25,7 @@ model Product {
   name String @unique
   img String? @default("default.png")
   reviewCount Int? @default(0)
+  rating Int? @default(2)
   description String? @default("")
   age Int
   formPC String[]
