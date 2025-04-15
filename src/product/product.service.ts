@@ -60,7 +60,7 @@ export class ProductService {
 
 	async getProductFilter(dto: ProductFilterDTO) {
 		const product = await this.prisma.product.findMany()
-		return product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset - 1)
+		return product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset + 1)
 	}
 
 	// Delete request
