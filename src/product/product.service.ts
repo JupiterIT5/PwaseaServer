@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service'
-import { CategoryDTO, ProductDTO, ReviewDTO, VersionDTO } from './dto/product.dto'
+import { CategoryDTO, ProductDTO, ProductFilterDTO, ReviewDTO, VersionDTO } from './dto/product.dto'
 
 @Injectable()
 export class ProductService {
@@ -56,6 +56,11 @@ export class ProductService {
 		return await this.prisma.version.create({
 			data: dto
 		})
+	}
+
+	async getProductFilter(dto: ProductFilterDTO) {
+		const product = await this.prisma.product.findMany()
+		return product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset - 1)
 	}
 
 	// Delete request

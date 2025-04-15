@@ -15,14 +15,14 @@ export class UserController {
       return this.userService.getAllUsers()
     }
 
-    @Get("/get-user")
+    // post request
+
+    @Post("/get-user")
     @HttpCode(200)
     @ApiBody({type: GetUserDTO})
     getUser(@Body() dto: GetUserDTO) {
       return this.userService.getUser(dto)
     }
-
-    // post request
 
     @Post("/create-user")
     @HttpCode(201)

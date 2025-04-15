@@ -76,3 +76,13 @@ export class ReviewDTO {
 	@IsInt()
 	productId: number;
 }
+
+export class ProductFilterDTO {
+  @ApiProperty()
+	@IsInt()
+  limit: number;
+
+  @ApiProperty()
+	@IsInt()
+  offset: number
+}

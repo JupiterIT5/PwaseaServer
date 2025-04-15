@@ -1,6 +1,6 @@
 import { BadRequestException, Body, Controller, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { CategoryDTO, ProductDTO, ReviewDTO, VersionDTO } from './dto/product.dto'
+import { CategoryDTO, ProductDTO, ProductFilterDTO, ReviewDTO, VersionDTO } from './dto/product.dto'
 import { ApiBody, ApiTags } from '@nestjs/swagger'
 
 @Controller('product')
@@ -42,6 +42,16 @@ export class ProductController {
   }
 
   // Post request
+
+  @Post("/get-product-filter")
+  @HttpCode(200)
+  @ApiBody({type: ProductFilterDTO})
+  async getProductFilter(@Body() dto: ProductFilterDTO) {
+    if (dto.limit <= 0 || dto.offset <= 0) {
+      return new BadRequestException("Error limit && offset")
+    }
+    return await this.productService.getProductFilter(dto)
+  }
 
   @Post("/create-product")
   @ApiBody({type: [ProductDTO]})
