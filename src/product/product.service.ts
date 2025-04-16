@@ -66,7 +66,6 @@ export class ProductService {
 			await this.prisma.product.findMany().then((value) => product = value)
 		}
 		if (product) {
-			console.log(product)
 			if (!dto.offset && !dto.limit && !dto.age && !dto.rating) {
 				return product
 			}
