@@ -65,8 +65,8 @@ export class VersionDTO {
 
 export class ReviewDTO {
   @ApiProperty()
-	@IsInt()
-  userId: number;
+	@IsString()
+  name: string
 
   @ApiProperty()
 	@IsInt()
