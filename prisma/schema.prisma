@@ -8,60 +8,58 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  email String?
-  phone String?
-  login String @unique
+  id       Int      @id @default(autoincrement())
+  email    String?
+  phone    String?
+  login    String   @unique
   password String
-  face Boolean? @default(false)
-  name String
-  avatar String? @default("user_default.png")
+  face     Boolean? @default(false)
+  name     String
+  avatar   String?  @default("http://89.169.0.195:3000/images/user_default.png")
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
-  review Review[]
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  name String @unique
-  img String? @default("default.png")
-  reviewCount Int? @default(0)
-  rating Int? @default(2)
-  description String? @default("")
-  age Int
-  formPC String[]
-  formPhone String[]
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  categoryId Int
-  version Version?
-  review Review[]
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  img         String?  @default("http://89.169.0.195:3000/images/default.png")
+  reviewCount Int?     @default(0)
+  rating      Int?     @default(2)
+  description String?  @default("")
+  age         Int
+  formPC      String[]
+  formPhone   String[]
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  Int
+  version     Version?
+  review      Review[]
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  name String @unique
-  link String? @default("/")
+  id      Int       @id @default(autoincrement())
+  name    String    @unique
+  link    String?   @default("/")
   product Product[]
 }
 
 model Version {
-  id Int @id @default(autoincrement())
-  version Float? @default(1.00)
+  id          Int      @id @default(autoincrement())
+  version     Float?   @default(1.00)
   description String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int @unique
+  createAt    DateTime @default(now())
+  updateAt    DateTime @updatedAt
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   Int      @unique
 }
 
 model Review {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int @unique
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int @unique
-  review Int? @default(1)
+  id         Int      @id @default(autoincrement())
+  name       String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId  Int      @unique
+  review     Int?     @default(1)
   reviewText String
-  createAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
 }

@@ -31,6 +31,14 @@ export class ProductService {
 			}
 		})
 	}
+	
+	getVersion(id: number) {
+		return this.prisma.version.findMany({
+			where: {
+				productId: id
+			}
+		})
+	}
 
 	// Post request
 
@@ -70,7 +78,7 @@ export class ProductService {
 				return product
 			}
 			if (dto.offset && dto.limit) {
-				product = product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset + 1)
+				product = product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset)
 			}
 			if (dto.age) {
 				product = product.filter((value) => value.age === dto.age)

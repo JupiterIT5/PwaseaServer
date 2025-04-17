@@ -32,6 +32,10 @@ export class UserDTO {
 	@IsBoolean()
 	face?: boolean
 
+	@ApiProperty({required: false})
+	@IsBoolean()
+	avatar?: string;
+
 	@ApiProperty()
 	@IsString()
 	name: string;
@@ -61,4 +65,8 @@ export class UpdateUserDTO {
 	@ApiProperty({required: false})
 	@IsString()
 	name?: string;
+
+	@ApiProperty({required: false})
+	@IsBoolean()
+	avatar?: string;
 }

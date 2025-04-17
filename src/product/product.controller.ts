@@ -41,6 +41,16 @@ export class ProductController {
     return this.productService.getCategory(parseInt(id))
   }
 
+  @Get("/get-version/:id")
+  @ApiTags("Version")
+  @HttpCode(200)
+  getVersion(@Param("id") id: string) {
+    if (isNaN(parseInt(id))) {
+      return new NotFoundException("Product id is Number, not string")
+    }
+    return this.productService.getVersion(Number(id))
+  }
+
   // Post request
 
   @Post("/get-product-filter")
