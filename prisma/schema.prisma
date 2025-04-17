@@ -15,7 +15,7 @@ model User {
   password String
   face     Boolean? @default(false)
   name     String
-  nameCompany String
+  nameCompany String? @default("")
   avatar   String?  @default("http://89.169.0.195:3000/images/user_default.png")
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt

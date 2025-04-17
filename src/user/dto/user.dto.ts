@@ -40,9 +40,9 @@ export class UserDTO {
 	@IsString()
 	name: string;
 
-	@ApiProperty()
+	@ApiProperty({required: false})
 	@IsString()
-	nameCompany: string;
+	nameCompany?: string;
 }
 
 export class UpdateUserDTO {
