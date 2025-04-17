@@ -39,6 +39,10 @@ export class UserDTO {
 	@ApiProperty()
 	@IsString()
 	name: string;
+
+	@ApiProperty()
+	@IsString()
+	nameCompany: string;
 }
 
 export class UpdateUserDTO {

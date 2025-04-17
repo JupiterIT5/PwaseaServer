@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service'
 import { GetUserDTO, UpdateUserDTO, UserDTO } from './dto/user.dto'
 
@@ -12,16 +12,22 @@ export class UserService {
 		return this.prisma.user.findMany()
 	}
 
-	getUser(dto: GetUserDTO) {
-		return this.prisma.user.findUnique({
+	// post request
+
+	async getUser(dto: GetUserDTO) {
+		const user = await this.prisma.user.findUnique({
 			where: {
-				login: dto.login,
-				password: dto.password
+				login: dto.login
 			}
 		})
+		if (!user) {
+			return new NotFoundException("User is not found")
+		}
+		if (user.password !== dto.password) {
+			return new BadRequestException("Auth is denided")
+		}
+		return user
 	}
-
-	// post request
 
 	async createUser(dto: UserDTO) {
 		return await this.prisma.user.create({
