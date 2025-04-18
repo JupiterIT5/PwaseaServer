@@ -77,6 +77,9 @@ export class ReviewDTO {
   reviewText: string;
 
   @ApiProperty()
+	@IsString()
+
+  @ApiProperty()
 	@IsInt()
 	productId: number;
 }
@@ -101,4 +104,8 @@ export class ProductFilterDTO {
   @ApiProperty({required: false})
 	@IsInt()
   rating?: number
+
+  @ApiProperty({required: false})
+	@IsString()
+  searchText?: string
 }

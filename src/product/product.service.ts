@@ -16,6 +16,10 @@ export class ProductService {
 		return this.prisma.product.findUnique({
 			where: {
 				id
+			},
+			include: {
+				version: true,
+				review: true
 			}
 		})
 	}
@@ -74,6 +78,9 @@ export class ProductService {
 			await this.prisma.product.findMany().then((value) => product = value)
 		}
 		if (product) {
+			if (dto.searchText) {
+				product = product.filter((value) => value.name.includes(dto.searchText))
+			}
 			if (!dto.offset && !dto.limit && !dto.age && !dto.rating) {
 				return product
 			}

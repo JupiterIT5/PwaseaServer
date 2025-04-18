@@ -71,6 +71,10 @@ export class UpdateUserDTO {
 	name?: string;
 
 	@ApiProperty({required: false})
+	@IsString()
+	nameCompany?: string;
+
+	@ApiProperty({required: false})
 	@IsBoolean()
 	avatar?: string;
 }

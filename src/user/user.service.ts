@@ -1,6 +1,19 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service'
 import { GetUserDTO, UpdateUserDTO, UserDTO } from './dto/user.dto'
+import { ensureDir, remove } from 'fs-extra';
+import { join } from 'path'
+
+import * as path from "path"
+import * as fs from "fs"
+import * as uuid from "uuid"
+
+export enum FileType {
+	IMAGE = "image",
+	VIDEO = "video",
+	AUDIO = "audio",
+	PDF = "pdf"
+}
 
 @Injectable()
 export class UserService {
@@ -30,14 +43,22 @@ export class UserService {
 	}
 
 	async createUser(dto: UserDTO) {
-		return await this.prisma.user.create({
-			data: dto
-		})
+		try {
+			return await this.prisma.user.create({
+				data: dto
+			})
+		}
+		catch {
+			return new BadRequestException("user already created")
+		}
 	}
 
 	// put request 
 
-	async updateUser(dto: UpdateUserDTO, id: number) {
+	async updateUser(dto: UpdateUserDTO, id: number, file: Express.Multer.File) {
+		if (file.filename) {
+			dto.avatar = `http://89.169.0.195:3000/uploads/${file.filename}`
+		}
 		return await this.prisma.user.update({
 			where: {
 				id

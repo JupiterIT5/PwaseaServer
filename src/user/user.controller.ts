@@ -1,7 +1,9 @@
-import { Controller, Param, Post, Get, Body, HttpCode, NotFoundException } from '@nestjs/common';
+import { Controller, Param, Post, Get, Body, HttpCode, NotFoundException, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUserDTO, UpdateUserDTO, UserDTO } from './dto/user.dto'
 import { ApiBody } from '@nestjs/swagger'
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerConfig } from 'multer.config'
 
 @Controller('user')
 export class UserController {
@@ -36,13 +38,14 @@ export class UserController {
     @Post("/update-user/:id")
     @HttpCode(200)
     @ApiBody({type: UpdateUserDTO})
-    async updateUser(@Body() dto: UpdateUserDTO, @Param("id") id: string) {
+    @UseInterceptors(FileInterceptor('image', multerConfig))
+    async updateUser(@Body() dto: UpdateUserDTO, @Param("id") id: string, @UploadedFile() file: Express.Multer.File) {
       if (isNaN(Number(id))) {
         return new NotFoundException("User id is Number, not string")
       }
-      return await this.userService.updateUser(dto, Number(id))
+      return await this.userService.updateUser(dto, Number(id), file)
     }
-
+    
     // delete request
 
     @Post("/delete-user/:login")
