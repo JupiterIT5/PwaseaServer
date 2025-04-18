@@ -55,15 +55,26 @@ export class UserService {
 
 	// put request 
 
-	async updateUser(dto: UpdateUserDTO, id: number, file: Express.Multer.File) {
-		if (file.filename) {
-			dto.avatar = `http://89.169.0.195:3000/uploads/${file.filename}`
-		}
+	async updateUser(dto: UpdateUserDTO, id: number) {
 		return await this.prisma.user.update({
 			where: {
 				id
 			},
 			data: dto
+		})
+	}
+
+	async updateUserAwatar(id: number, file: Express.Multer.File) {
+		if (!file.filename) {
+			throw new BadRequestException("Image file not found");
+		}
+		return await this.prisma.user.update({
+			where: {
+				id
+			},
+			data: {
+				avatar: `http://89.169.0.195:3000/uploads/${file.filename}`
+			}
 		})
 	}
 

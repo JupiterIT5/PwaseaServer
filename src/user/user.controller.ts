@@ -38,12 +38,21 @@ export class UserController {
     @Post("/update-user/:id")
     @HttpCode(200)
     @ApiBody({type: UpdateUserDTO})
-    @UseInterceptors(FileInterceptor('image', multerConfig))
-    async updateUser(@Body() dto: UpdateUserDTO, @Param("id") id: string, @UploadedFile() file: Express.Multer.File) {
+    async updateUser(@Body() dto: UpdateUserDTO, @Param("id") id: string) {
       if (isNaN(Number(id))) {
         return new NotFoundException("User id is Number, not string")
       }
-      return await this.userService.updateUser(dto, Number(id), file)
+      return await this.userService.updateUser(dto, Number(id))
+    }
+
+    @Post("/update-user-avatar/:id")
+    @HttpCode(200)
+    @UseInterceptors(FileInterceptor('image', multerConfig))
+    async updateUserAvatar(@Param("id") id: string, @UploadedFile() file: Express.Multer.File) {
+      if (isNaN(Number(id))) {
+        return new NotFoundException("User id is Number, not string")
+      }
+      return await this.userService.updateUserAwatar(Number(id), file)
     }
     
     // delete request
