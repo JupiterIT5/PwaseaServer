@@ -73,7 +73,7 @@ export class UserService {
 				id
 			},
 			data: {
-				avatar: `http://89.169.0.195:3000/uploads/${file.filename}`
+				avatar: `http://89.169.0.195:3000/images/${file.filename}`
 			}
 		})
 	}
