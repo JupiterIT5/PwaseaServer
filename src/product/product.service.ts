@@ -88,10 +88,10 @@ export class ProductService {
 				product = product.slice(dto.limit*(dto.offset - 1),dto.limit*dto.offset)
 			}
 			if (dto.age) {
-				product = product.filter((value) => value.age === dto.age)
+				product = product.filter((value) => dto.age && value.age >= dto.age)
 			}		
 			if (dto.rating) {
-				product = product.filter((value) => dto.rating && value.rating >= dto.rating )
+				product = product.filter((value) => dto.rating && value.rating >= dto.rating)
 			}
 		}
 		return product
